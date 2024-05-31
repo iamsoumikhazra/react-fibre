@@ -1,0 +1,56 @@
+### What is React Fiber?
+
+React Fiber is a new version of React's core algorithm, which is responsible for updating the user interface (UI) efficiently. The main goal of Fiber is to make React better at handling things like animations, layout changes, and user interactions. It achieves this through **incremental rendering**, which means breaking down rendering work into smaller chunks and spreading them over multiple frames.
+
+### Key Features of React Fiber
+
+1. **Incremental Rendering**: This allows React to break down the rendering process into smaller pieces, which can be spread out over time. This helps in making animations and interactions smoother.
+2. **Pause, Abort, or Reuse Work**: React can now pause work on an update if something more important comes up, abort it if it's no longer needed, or reuse the work if the same update happens again.
+3. **Priority Levels**: Different updates can have different priority levels. For example, a user interaction (like a button click) might have a higher priority than updating data from a server.
+4. **Concurrency Primitives**: These are tools that help React handle multiple tasks at the same time more efficiently.
+
+### Understanding Reconciliation
+
+**Reconciliation** is the process React uses to figure out what has changed in the UI. When you update your app (e.g., by calling `setState`), React creates a new tree of nodes representing the UI. It then compares this new tree with the old one to determine the minimal set of changes needed. This comparison process is called "diffing."
+
+### Fiber as Units of Work
+
+A **fiber** in React Fiber is like a small unit of work. Think of it as a to-do item that React needs to process. Each fiber represents a part of the UI, such as a component or an element.
+
+### The Fiber Tree
+
+Fibers are organized in a tree structure, similar to how components are nested in a React app. Here are some important parts of a fiber:
+
+- **type**: The type of component (e.g., a function or class component).
+- **key**: A unique identifier used for tracking items in lists.
+- **child**: The first child fiber.
+- **sibling**: The next sibling fiber.
+- **return**: The parent fiber.
+- **pendingProps**: The new properties (props) for the component.
+- **memoizedProps**: The previous properties (props) that were used.
+
+### Scheduling Work
+
+**Scheduling** is about deciding when and in what order to perform work. React Fiber can delay, prioritize, or even abort work based on what's important at the moment. For example, updating a counter might be less important than ensuring an animation runs smoothly.
+
+### How Fiber Works
+
+Here's a simplified analogy to understand Fiber:
+
+1. **Call Stack Analogy**: In programming, a call stack keeps track of function calls. Each function call creates a stack frame, which holds information about the function. Similarly, a fiber holds information about a component and its work.
+2. **Virtual Stack Frames**: Fiber reimplements the call stack in a way that allows React to pause and resume work, assign priorities, and reuse work.
+3. **Breaking Down Work**: By breaking down work into fibers, React can spread out the work over multiple frames, ensuring smoother performance.
+
+### Conclusion
+
+React Fiber is an advanced reimplementation of React's core algorithm designed to handle complex UI updates more efficiently. It introduces concepts like incremental rendering, priority-based scheduling, and fibers as units of work, all aimed at improving the performance and responsiveness of React applications.
+
+### Further Learning
+
+To fully grasp React Fiber, it's beneficial to understand the following:
+
+- **React Components and Props**: Knowing how React components and props work will help you understand how fibers represent components.
+- **JavaScript Promises and Asynchronous Programming**: Since scheduling and concurrency are crucial in Fiber, understanding these concepts can be helpful.
+- **React's Reconciliation Algorithm**: Learning how React compares trees of nodes to update the UI efficiently will give you a deeper insight into how Fiber works.
+
+If you have any specific questions or need more detailed explanations on any part, feel free to ask!
