@@ -1,0 +1,111 @@
+### What is Reconciliation?
+
+Reconciliation is the process React uses to compare the new UI tree with the previous UI tree and determine which parts of the UI need to be updated. This is often referred to as "diffing."
+
+### Key Concepts in Reconciliation
+
+1. **Virtual DOM**: React uses a virtual DOM, which is a lightweight copy of the actual DOM. When you update your app, React creates a new virtual DOM tree and compares it to the previous one.
+2. **Diffing**: This is the process of comparing the new virtual DOM tree with the old one to find out what has changed.
+
+### Steps in the Reconciliation Algorithm
+
+1. **Element Type Comparison**:
+   - **Same Type**: If the new and old elements have the same type (e.g., both are `<div>` elements), React updates the attributes and keeps the existing DOM node.
+   - **Different Type**: If the new and old elements have different types (e.g., changing a `<div>` to a `<span>`), React removes the old element and creates a new one.
+
+2. **Child Elements**:
+   - **Single Child**: If a component has a single child, React compares the new child element with the old one.
+   - **Multiple Children**: If a component has multiple children, React uses keys to identify each child uniquely. Keys help React to match children between the old and new virtual DOM trees.
+
+3. **Using Keys**:
+   - **Keys**: When you render a list of elements, you should provide a unique key for each element. This helps React identify which items have changed, are added, or are removed.
+   - **Stable and Predictable**: Keys should be stable (not change between renders) and predictable.
+
+### Detailed Breakdown
+
+Let's go through an example to see how reconciliation works in practice.
+
+1. **Initial Render**:
+   ```jsx
+   <div>
+     <h1>Title</h1>
+     <ul>
+       <li>Item 1</li>
+       <li>Item 2</li>
+     </ul>
+   </div>
+   ```
+   React creates a virtual DOM tree that looks like this:
+   ```
+   <div>
+     <h1>Title</h1>
+     <ul>
+       <li>Item 1</li>
+       <li>Item 2</li>
+     </ul>
+   </div>
+   ```
+
+2. **Update**:
+   ```jsx
+   <div>
+     <h1>New Title</h1>
+     <ul>
+       <li>Item 1</li>
+       <li>Item 3</li>
+     </ul>
+   </div>
+   ```
+   React creates a new virtual DOM tree:
+   ```
+   <div>
+     <h1>New Title</h1>
+     <ul>
+       <li>Item 1</li>
+       <li>Item 3</li>
+     </ul>
+   </div>
+   ```
+
+3. **Diffing Process**:
+   - **Compare Root Elements**: Both old and new trees have a `<div>` as the root element. No change is needed.
+   - **Compare `<h1>` Elements**: The old `<h1>` has the text "Title" and the new `<h1>` has the text "New Title". React updates the text content.
+   - **Compare `<ul>` Elements**: Both old and new trees have a `<ul>` element. No change is needed.
+   - **Compare `<li>` Elements**:
+     - The first `<li>` in both trees is "Item 1". No change is needed.
+     - The second `<li>` is different ("Item 2" in the old tree and "Item 3" in the new tree). React removes the old `<li>` and creates a new one.
+
+### Using Keys for Lists
+
+When dealing with lists, keys are crucial for efficient reconciliation. Consider this example:
+
+1. **Initial List**:
+   ```jsx
+   <ul>
+     <li key="1">Item 1</li>
+     <li key="2">Item 2</li>
+   </ul>
+   ```
+
+2. **Updated List**:
+   ```jsx
+   <ul>
+     <li key="1">Item 1</li>
+     <li key="3">Item 3</li>
+     <li key="2">Item 2</li>
+   </ul>
+   ```
+
+3. **Diffing Process with Keys**:
+   - React uses the keys to match elements:
+     - Key "1" matches "Item 1". No change is needed.
+     - Key "3" is new, so React creates a new `<li>Item 3</li>`.
+     - Key "2" matches "Item 2", but its position has changed. React moves the existing `<li>`.
+
+### Summary
+
+- **Element Type Comparison**: React checks if elements are of the same type to decide whether to update or replace them.
+- **Child Elements**: React compares child elements recursively. For lists, keys are used to match elements.
+- **Keys**: Providing unique keys for list items helps React to efficiently update the UI by identifying which items have changed.
+
+By understanding these concepts, you can write React components that make the most out of its reconciliation algorithm, resulting in efficient and performant applications. If you have more questions or need further clarification, feel free to ask!
